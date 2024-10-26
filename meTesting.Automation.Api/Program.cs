@@ -8,11 +8,16 @@ using meTesting.Aether.SDK;
 using meTesting.GeneralHelpers;
 using meTesting.Sauron;
 using meTesting.Sandbaad.Sdk;
+using meTesting.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.ConfigFor<SauronConfig>(builder.Configuration, out var conf);
+
+builder.Services.ConfigFor<SandbaadConfig>(builder.Configuration, out var sandConf);
+
+builder.Services.ConfigFor<EnvironmentConfig>(builder.Configuration, out var envConf);
 
 builder.Services.AddSauron(builder.Configuration, conf!);
 
@@ -21,7 +26,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddSandbaadClient();
+builder.Services.AddSandbaadClient(sandConf);
 
 builder.Services.AddLogging(a =>
 a.AddConsole());
